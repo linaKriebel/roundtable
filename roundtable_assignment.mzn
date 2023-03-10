@@ -29,29 +29,29 @@ array[PERSON, TOPIC] of 0..1: signup;
 array[PERSON] of string: name; % people's names
 
 % assignment variables
-array[CHAIR] of var PERSON0: occupant;
+array[CHAIR] of var PERSON0: participant;
 var int: violations;
 
 % ----- CONSTRAINTS -----
 
 % each person should get a chair on each topic they signed up for
-constraint violations = sum(p in PERSON, t in TOPIC where signup[p,t] = 1)(sum(c in CHAIR where occupant[c] = p)(topic[suite[c]] = t) = 0);
-%constraint forall(p in PERSON, t in TOPIC where signup[p,t] = 1)(sum(c in CHAIR where occupant[c] = p)(topic[suite[c]] = t) = 1);
+constraint violations = sum(p in PERSON, t in TOPIC where signup[p,t] = 1)(sum(c in CHAIR where participant[c] = p)(topic[suite[c]] = t) = 0);
+%constraint forall(p in PERSON, t in TOPIC where signup[p,t] = 1)(sum(c in CHAIR where participant[c] = p)(topic[suite[c]] = t) = 1);
 
 % a person can only join a topic once
-constraint forall(p in PERSON, t in TOPIC where signup[p,t] = 1)(sum(c in CHAIR where occupant[c] = p)(topic[suite[c]] = t) <= 1);
+constraint forall(p in PERSON, t in TOPIC where signup[p,t] = 1)(sum(c in CHAIR where participant[c] = p)(topic[suite[c]] = t) <= 1);
 
 % a person can not get a chair for a topic they did not sign up for
-constraint forall(p in PERSON, c in CHAIR where occupant[c] = p)(signup[p, topic[suite[c]]] = 1);
+constraint forall(p in PERSON, c in CHAIR where participant[c] = p)(signup[p, topic[suite[c]]] = 1);
 
 % each table needs at least 3 people or no one
-constraint forall(t in TABLE)(sum(c in CHAIR where suite[c] = t)(occupant[c] > 0) >= 3 \/ sum(c in CHAIR where suite[c] = t)(occupant[c] > 0) = 0);
+constraint forall(t in TABLE)(sum(c in CHAIR where suite[c] = t)(participant[c] > 0) >= 3 \/ sum(c in CHAIR where suite[c] = t)(participant[c] > 0) = 0);
 
 % persons cannot be on tables that take place in the same round
-constraint forall(p in PERSON) (not exists(c1, c2 in CHAIR where c1 < c2 /\ occupant[c1] = p /\ occupant[c2] = p)(round[suite[c1]] = round[suite[c2]]));
+constraint forall(p in PERSON) (not exists(c1, c2 in CHAIR where c1 < c2 /\ participant[c1] = p /\ participant[c2] = p)(round[suite[c1]] = round[suite[c2]]));
 
 % ----- make it faster -----
-constraint symmetry_breaking_constraint(lex_lesseq(occupant, reverse(occupant)));
+constraint symmetry_breaking_constraint(lex_lesseq(participant, reverse(participant)));
 
 
 solve minimize violations;
