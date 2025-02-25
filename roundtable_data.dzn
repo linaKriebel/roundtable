@@ -1,8 +1,10 @@
-topics = 12;
-rounds = 3;
-people = 92;
+registrations = 92;
 
-TOPIC = {xxx, xxx, xxx, xxx, xxx, xxx, xxx, xxx, xxx, xxx, xxx, xxx};
+tables = 12; % number of (physical) tables per round
+chairs = 6;  % number of (physical) chairs per table
+rounds = 3;  
+
+TOPICS = {xxx, xxx, xxx, xxx, xxx, xxx, xxx, xxx, xxx, xxx, xxx, xxx};
 
 topic = [xxx, xxx, xxx, xxx, xxx, xxx, xxx, xxx, xxx, xxx, xxx, xxx, 
          xxx, xxx, xxx, xxx, xxx, xxx, xxx, xxx, xxx, xxx, xxx, xxx, 
